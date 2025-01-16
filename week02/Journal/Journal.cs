@@ -55,7 +55,6 @@ public class Journal
         Console.WriteLine("Journal loaded successfully.");
     }
 
-    // Exceeding requirements: Added method to analyze mood trends
     public void AnalyzeMoodTrends()
     {
         var moodCounts = _entries.GroupBy(e => e.Mood)

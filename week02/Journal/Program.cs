@@ -66,11 +66,8 @@ class Program
     }
 }
 
-// Exceeding Requirements:
-// 1. Added mood tracking to each journal entry, allowing users to record their emotional state.
-// 2. Implemented a mood trend analysis feature that shows the frequency of different moods.
-// 3. Used LINQ for efficient data processing in the mood trend analysis.
-// 4. Implemented a more detailed timestamp for entries, including both date and time.
-// 5. Used proper C# naming conventions throughout the program.
-// 6. Organized code into separate files for each class, promoting better maintainability.
-// 7. Implemented error handling for file operations (not shown in this simplified version).
+// Requirements Exceded:
+// I thought it would be fun to add a mood tracker as we are not always in the same mood.
+// It is importatn to know if you are always in the same mood like if you are happy most of the time is great though if you are always mad is good to know.
+// Looking for furter options I fount that using LINQ for a better efficient data in the mood analysis.
+// Implemented a more detailed timestamp for entries, including both date and time.
