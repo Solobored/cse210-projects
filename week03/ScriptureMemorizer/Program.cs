@@ -5,7 +5,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Exceeding requirements: Create a list of scriptures to choose from randomly
+        // Exceeding requirements by creating a list of scriptures to choose from randomly
         List<Scripture> scriptures = new List<Scripture>
         {
             new Scripture(new Reference("John", 3, 16), "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."),
@@ -18,7 +18,6 @@ class Program
 
         while (!currentScripture.IsCompletelyHidden())
         {
-            // Instead of clearing the console, print newlines and a separator
             Console.WriteLine("\n\n" + new string('-', 60) + "\n");
             
             Console.WriteLine(currentScripture.GetDisplayText());
