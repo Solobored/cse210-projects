@@ -36,4 +36,14 @@ public class Scripture
     {
         return _words.All(w => w.IsHidden());
     }
+
+    public int GetVisibleWordCount()
+    {
+        return _words.Count(w => !w.IsHidden());
+    }
+
+    public string GetReferenceText()
+    {
+        return _reference.GetDisplayText();
+    }
 }
