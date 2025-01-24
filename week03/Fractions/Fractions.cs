@@ -5,7 +5,6 @@ public class Fraction
     private int _numerator;
     private int _denominator;
 
-    // Constructors
     public Fraction()
     {
         _numerator = 1;
@@ -29,7 +28,6 @@ public class Fraction
         _denominator = denominator;
     }
 
-    // Getters and Setters
     public int Numerator
     {
         get { return _numerator; }
@@ -49,7 +47,6 @@ public class Fraction
         }
     }
 
-    // Methods
     public string GetFractionString()
     {
         return $"{_numerator}/{_denominator}";
