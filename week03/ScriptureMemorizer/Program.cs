@@ -5,7 +5,7 @@ class Program
 {
     static void Main(string[] args)
     {
-        // Exceedede requirements by creating a list of scriptures to choose from randomly
+        // Create a list of scriptures to choose from randomly
         List<Scripture> scriptures = new List<Scripture>
         {
             new Scripture(new Reference("John", 3, 16), "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."),
@@ -18,7 +18,15 @@ class Program
 
         while (!currentScripture.IsCompletelyHidden())
         {
-            Console.Clear();
+            try
+            {
+                Console.Clear();
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("[Warning] Console.Clear() is not supported in this environment.");
+            }
+
             Console.WriteLine(currentScripture.GetDisplayText());
             Console.WriteLine("\nPress enter to continue or type 'quit' to finish:");
             string input = Console.ReadLine();
