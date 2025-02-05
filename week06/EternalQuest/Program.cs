@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+// creativity: It has a game like scoring and progression we all like gettin higher scores. 
 
 namespace EternalQuest
 {

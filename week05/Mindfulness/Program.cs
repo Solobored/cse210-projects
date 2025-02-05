@@ -1,8 +1,7 @@
 using System;
 using System.Threading;
 
-// log activity completion.
-// For example, write to a file or display extra stats—here we simply display a message.
+// Creativity on this program: log activity completion (For example, write to a file or display extra stats here we simply display a message)
 
 class Program
 {
