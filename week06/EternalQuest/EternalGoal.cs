@@ -8,8 +8,8 @@ namespace EternalQuest
         {
             _pointsPerRecording = pointsPerRecording;
         }
-
-        public new int RecordEvent()
+        
+        public override int RecordEvent()
         {
             _points += _pointsPerRecording;
             return _pointsPerRecording;

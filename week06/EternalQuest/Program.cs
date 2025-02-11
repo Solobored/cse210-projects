@@ -117,17 +117,15 @@ namespace EternalQuest
                 Console.ReadLine();
                 return;
             }
-
-            int pointsEarned = 0;
-            if (goals[index] is EternalGoal eternal)
-                pointsEarned = eternal.RecordEvent();
-            else
-                pointsEarned = goals[index].RecordEvent();
-
+            
+            int pointsEarned = goals[index].RecordEvent();
             totalScore += pointsEarned;
+            
             Console.WriteLine($"Recorded event. Points earned: {pointsEarned}. Press Enter.");
             Console.ReadLine();
         }
+
+
 
         static void DisplayGoals()
         {
