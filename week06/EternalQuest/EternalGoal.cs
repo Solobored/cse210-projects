@@ -1,3 +1,6 @@
+
+using System;
+
 namespace EternalQuest
 {
     public class EternalGoal : Goal
@@ -8,7 +11,7 @@ namespace EternalQuest
         {
             _pointsPerRecording = pointsPerRecording;
         }
-        
+
         public override int RecordEvent()
         {
             _points += _pointsPerRecording;

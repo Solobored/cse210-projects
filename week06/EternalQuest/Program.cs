@@ -126,7 +126,6 @@ namespace EternalQuest
         }
 
 
-
         static void DisplayGoals()
         {
             Console.Clear();
