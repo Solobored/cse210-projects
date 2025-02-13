@@ -1,31 +1,54 @@
-
 using System;
 
 namespace EternalQuest
 {
     public class EternalGoal : Goal
     {
-        private int _pointsPerRecording;
+        public DateTime LastRecordedDate { get; private set; }
+        public int StreakCount { get; set; }
 
-        public EternalGoal(string name, int pointsPerRecording) : base(name, 0)
+        public EternalGoal(string name, string description, int points)
+            : base(name, description, points)
         {
-            _pointsPerRecording = pointsPerRecording;
+            LastRecordedDate = DateTime.MinValue;
+            StreakCount = 0;
         }
 
         public override int RecordEvent()
         {
-            _points += _pointsPerRecording;
-            return _pointsPerRecording;
+            int bonus = 0;
+            DateTime today = DateTime.Today;
+            if (LastRecordedDate == today.AddDays(-1) || LastRecordedDate == DateTime.MinValue)
+            {
+                StreakCount++;
+                if (StreakCount > 1 && StreakCount % 3 == 0)
+                {
+                    bonus = 50;
+                    Console.WriteLine("Streak Bonus! Your eternal goal streak is now " + StreakCount);
+                }
+            }
+            else
+            {
+                StreakCount = 1;
+            }
+            LastRecordedDate = today;
+            return _points + bonus;
         }
 
-        public override string GetDescription()
+        public override string GetDetails()
         {
-            return $"{_name} (Total points: {_points}) [Eternal]";
+            return $"[∞] {_name} ({_description}) - Last Recorded: {LastRecordedDate.ToShortDateString()}, Streak: {StreakCount}";
         }
 
         public override string Serialize()
         {
-            return $"{this.GetType().Name},{_name},{_points},{0}";
+
+            return $"Eternal|{_name}|{_description}|{_points}|{LastRecordedDate}|{StreakCount}";
+        }
+
+        public void SetLastDate(DateTime date)
+        {
+            LastRecordedDate = date;
         }
     }
 }

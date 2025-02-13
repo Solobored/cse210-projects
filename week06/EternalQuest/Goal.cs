@@ -5,71 +5,62 @@ namespace EternalQuest
     public abstract class Goal
     {
         protected string _name;
+        protected string _description;
         protected int _points;
-        protected bool _completed;
+        protected bool _isComplete;
 
-        public Goal(string name, int points)
+        public Goal(string name, string description, int points)
         {
             _name = name;
+            _description = description;
             _points = points;
-            _completed = false;
+            _isComplete = false;
         }
 
-        public virtual int RecordEvent()
+        public abstract int RecordEvent();
+        public abstract string GetDetails();
+        public abstract string Serialize();
+
+        public static Goal Deserialize(string data)
         {
-            _completed = true;
-            return _points;
-        }
-
-        public virtual string GetDescription()
-        {
-            string status = _completed ? "[X]" : "[ ]";
-            return $"{_name} ({_points} pts) {status}";
-        }
-
-        public bool IsComplete() => _completed;
-
-        public virtual string Serialize()
-        {
-            return $"{this.GetType().Name},{_name},{_points},{(_completed ? 1 : 0)}";
-        }
-
-        public static Goal Deserialize(string line)
-        {
-            string[] parts = line.Split(',');
-            if (parts.Length < 4)
-                throw new ArgumentException("Invalid data format");
-
+            string[] parts = data.Split('|');
             string type = parts[0];
-            string name = parts[1];
-            int points = int.Parse(parts[2]);
-            bool completed = parts[3] == "1";
-
-            Goal goal;
-            switch (type)
+            if (type == "Simple")
             {
-                case "SimpleGoal":
-                    goal = new SimpleGoal(name, points);
-                    break;
-                case "EternalGoal":
-                    goal = new EternalGoal(name, 100);
-                    break;
-                case "ChecklistGoal":
-                    if (parts.Length < 6)
-                        throw new ArgumentException("Invalid data format for ChecklistGoal");
-                    int currentCount = int.Parse(parts[4]);
-                    int targetCount = int.Parse(parts[5]);
-                    goal = new ChecklistGoal(name, points, targetCount);
-                    ((ChecklistGoal)goal).SetCompletionCount(currentCount);
-                    break;
-                default:
-                    throw new ArgumentException("Unknown goal type");
+                SimpleGoal sg = new SimpleGoal(parts[1], parts[2], int.Parse(parts[3]));
+                sg.SetComplete(bool.Parse(parts[4]));
+                return sg;
             }
-
-            if (completed)
-                goal._completed = true;
-
-            return goal;
+            else if (type == "Eternal")
+            {
+                EternalGoal eg = new EternalGoal(parts[1], parts[2], int.Parse(parts[3]));
+                eg.SetLastDate(DateTime.Parse(parts[4]));
+                eg.StreakCount = int.Parse(parts[5]);
+                return eg;
+            }
+            else if (type == "Checklist")
+            {
+                ChecklistGoal cg = new ChecklistGoal(parts[1], parts[2], int.Parse(parts[3]),
+                                                       int.Parse(parts[5]), int.Parse(parts[6]));
+                cg.CurrentCount = int.Parse(parts[4]);
+                cg.SetComplete(bool.Parse(parts[7]));
+                return cg;
+            }
+            else if (type == "Negative")
+            {
+                NegativeGoal ng = new NegativeGoal(parts[1], parts[2], int.Parse(parts[3]));
+                ng.SetComplete(bool.Parse(parts[4]));
+                return ng;
+            }
+            else
+            {
+                throw new Exception("Unknown goal type");
+            }
         }
+
+        public bool IsComplete() => _isComplete;
+        public string GetName() => _name;
+        public int GetPoints() => _points;
+        public void SetComplete(bool complete) { _isComplete = complete; }
     }
 }

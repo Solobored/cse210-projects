@@ -1,52 +1,47 @@
+using System;
+
 namespace EternalQuest
 {
     public class ChecklistGoal : Goal
     {
-        private int _pointsPerCompletion;
-        private int _targetCount;
-        private int _currentCount;
+        public int CurrentCount { get; set; }
+        public int TargetCount { get; private set; }
+        public int BonusPoints { get; private set; }
 
-        public ChecklistGoal(string name, int pointsPerCompletion, int targetCount)
-            : base(name, 0)
+        public ChecklistGoal(string name, string description, int points, int targetCount, int bonusPoints)
+            : base(name, description, points)
         {
-            _pointsPerCompletion = pointsPerCompletion;
-            _targetCount = targetCount;
-            _currentCount = 0;
+            CurrentCount = 0;
+            TargetCount = targetCount;
+            BonusPoints = bonusPoints;
         }
 
         public override int RecordEvent()
         {
-            if (_completed)
-                return 0;
-
-            _currentCount++;
-            _points += _pointsPerCompletion;
-            if (_currentCount >= _targetCount)
+            if (!_isComplete)
             {
-                _completed = true;
-                int bonus = 500;
-                _points += bonus;
-                return _pointsPerCompletion + bonus;
+                CurrentCount++;
+                int total = _points;
+                if (CurrentCount >= TargetCount)
+                {
+                    _isComplete = true;
+                    total += BonusPoints;
+                    Console.WriteLine("Checklist completed! Bonus " + BonusPoints + " points earned!");
+                }
+                return total;
             }
-            return _pointsPerCompletion;
+            return 0;
         }
 
-        public override string GetDescription()
+        public override string GetDetails()
         {
-            string status = _completed ? "[X]" : $"[ {_currentCount}/{_targetCount} ]";
-            return $"{_name} (Total points: {_points}) {status}";
+            string status = _isComplete ? "[X]" : "[ ]";
+            return $"{status} {_name} ({_description}) -- Completed {CurrentCount}/{TargetCount} times";
         }
 
         public override string Serialize()
         {
-            return $"{this.GetType().Name},{_name},{_points},{(_completed ? 1 : 0)},{_currentCount},{_targetCount}";
-        }
-
-        public void SetCompletionCount(int count)
-        {
-            _currentCount = count;
-            if (_currentCount >= _targetCount)
-                _completed = true;
+            return $"Checklist|{_name}|{_description}|{_points}|{CurrentCount}|{TargetCount}|{BonusPoints}|{_isComplete}";
         }
     }
 }
